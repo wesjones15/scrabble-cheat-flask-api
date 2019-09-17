@@ -1,36 +1,25 @@
 def getScrabbleWordsFromLetters(letters):
-    return word_list
+    with open('./assets/scrabble_word_list.txt') as file:
+        word_list = [line.rstrip('\n') for line in file]
+    filtered_list = filterWordListByWordLength(letters, word_list)
+    filtered_list = filterOutUnusedLetters(letters, filtered_list)
+    filtered_list = filterWordListByLetterFrequency(letters, filtered_list)
+    return filtered_list
 
-def filterOutUnusedLetters(letters):
+def filterWordListByWordLength(letters, word_list):
+    return list(filter(lambda word: len(word) <= len(letters), word_list))
+    # return filtered_list
+
+def filterOutUnusedLetters(letters, word_list):
     alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-    scrabble_dictionary = [line.rstrip('\n') for line in open('./assets/scrabble_word_list.txt')]
-    unused_letters_list = list(filter(lambda letter: letter not in letters, alphabet))
-    
-    # filter scrabble list by length of input letters
-    print(len(scrabble_dictionary))
-    filtered_scrabble_word_list = list(filter(lambda word: len(word) <= len(letters), scrabble_dictionary))
-    
-    # filter scrabble list to exclude unused letters
-    print(len(filtered_scrabble_word_list))
-    for letter in unused_letters_list:
-        filtered_scrabble_word_list = list(filter(lambda word: letter not in word, filtered_scrabble_word_list))
-    print(len(filtered_scrabble_word_list))
-    filtered_list = filtered_scrabble_word_list
+    unused_letters = list(filter(lambda letter: letter not in letters, alphabet))
+    filtered_list = word_list
+    for letter in unused_letters:
+        filtered_list = list(filter(lambda word: letter not in word, filtered_list))
     return filtered_list
 
 def filterWordListByLetterFrequency(letters, word_list):
-    print(len(word_list))
+    filtered_list = word_list
     for letter in letters:
-        filtered_list = list(filter(lambda word: word.count(letter) <= letters.count(letter), word_list))
-    print(len(filtered_list))
+        filtered_list = list(filter(lambda word: word.count(letter) <= letters.count(letter), filtered_list))
     return filtered_list
-
-def getFrequencyOfLetterInWord(letter, word):
-    frequency = word.count(letter)
-    return frequency
-
-if __name__ == '__main__':
-    my_letters = ["A","B","C","A","E","P"]
-    filter_lsit = filterOutUnusedLetters(my_letters)
-    filterWordListByLetterFrequency(my_letters, filter_lsit)
-    # getFrequencyOfLetterInWord("A", "BANANA")

@@ -1,10 +1,11 @@
 from operator import itemgetter
 
-def getBestScoringWords(word_list):
+def getBestScoringWords(word_list, **kwargs):
+    limit = kwargs.get('limit', 3)
     sorted_list = [] # 2D list with word and score
     for word in word_list:
         sorted_list.append([word, getPointValueOfWord(word)])
-    sorted_list = sorted(sorted_list, key=itemgetter(1), reverse=True)
+    sorted_list = sorted(sorted_list, key=itemgetter(1), reverse=True)[:limit]
     return sorted_list
 
 def getPointValueOfWord(word):

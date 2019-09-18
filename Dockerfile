@@ -1,7 +1,8 @@
 FROM python:3
 
-# ADD relevant_files.py /
+ADD views.py /
 
 RUN pip install flask
+RUN pip install flask-cors
 
-# CMD [ "python", "file.py" ]
+CMD [ "python", "views.py" ]

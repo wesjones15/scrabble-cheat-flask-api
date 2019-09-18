@@ -28,6 +28,7 @@ class TestBestWords(unittest.TestCase):
         result = len(getBestScoringWords(word_list))
         expected = 3
         case = "should only return top 3 words"
+        self.assertEqual(result, expected, case)
         
     def test_returnOneWord(self):
         word_list = ["DOG", "A", "ZEBRA"]

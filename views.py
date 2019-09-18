@@ -2,9 +2,15 @@ from findScrabbleWordsFromLetters import getScrabbleWordsFromLetters
 from getBestScoringWords import getBestScoringWords
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 app = Flask(__name__)
+cors = CORS(app)
+@app.route('/')
+def apiStatus():
+    return "Scrabble Cheat API is running"
 
 @app.route("/words", methods=["POST"])
+# @cross_origin()
 def returnWords():
     letters = list(request.get_json().get('letters'))
     print(letters)

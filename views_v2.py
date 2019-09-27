@@ -1,7 +1,7 @@
 from findScrabbleWordsFromLetters import getScrabbleWordsFromLetters
 from getBestScoringWords import getBestScoringWords
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 app = Flask(__name__)
 cors = CORS(app)
@@ -9,13 +9,14 @@ cors = CORS(app)
 def apiStatus():
     return "Scrabble Cheat API is running"
 
-@app.route("/words", methods=["POST"])
-# @cross_origin()
-def returnWords():
-    letters = list(request.get_json().get('letters'))
+@app.route("/words/<letters>", methods=["GET","POST"])
+def returnWords(letters):
+    # letters = list(request.get_json(force=True).get('letters'))
     print(letters)
     word_list = getScrabbleWordsFromLetters(letters)
+    print(len(word_list))
     best_words = getBestScoringWords(word_list)
+    print(best_words)
     return jsonify({'words': best_words})
     
 # I want to POST letters as JSON object to server
